@@ -1,0 +1,162 @@
+openapi: 3.0.3
+info:
+  title: Practice
+  version: 1.0.0
+  description: This project was created for practice
+paths:
+  /vps/:
+    get:
+      operationId: vps_list
+      tags:
+      - vps
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vps'
+          description: ''
+    post:
+      operationId: vps_create
+      tags:
+      - vps
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vps'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vps'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Vps'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vps'
+          description: ''
+  /vps/{id}:
+    get:
+      operationId: vps_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - vps
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vps'
+          description: ''
+    put:
+      operationId: vps_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - vps
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vps'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vps'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Vps'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vps'
+          description: ''
+    delete:
+      operationId: vps_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - vps
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    StatusEnum:
+      enum:
+      - started
+      - blocked
+      - stopped
+      type: string
+    Vps:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        ram:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        cpu:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        hdd:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+      required:
+      - cpu
+      - hdd
+      - id
+      - ram
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
