@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 from datetime import timedelta
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -80,11 +81,11 @@ WSGI_APPLICATION = 'practice_1.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'practice_1',
-        'USER': 'postgres',
-        'PASSWORD': '89817613085',
-        'HOST': 'localhost',
-        'PORT': 5432,
+        'NAME': config('DB_NAME', default=''),
+        'USER': config('DB_USER', default='postgres'),
+        'PASSWORD': config('DB_PASSWORD', default=''),
+        'HOST': config('DB_HOST', default='localhost'),
+        'PORT': config('DB_PORT', default=5432, cast=int),
     }
 }
 
