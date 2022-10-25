@@ -2,6 +2,8 @@ import uuid
 
 from django.db import models
 
+from users.models import User
+
 
 class Vps(models.Model):
     STATUSES = [
@@ -14,3 +16,4 @@ class Vps(models.Model):
     ram = models.IntegerField()
     hdd = models.IntegerField()
     status = models.CharField(choices=STATUSES, default="started", max_length=7)
+    maintained_by = models.ManyToManyField(User)

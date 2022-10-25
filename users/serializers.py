@@ -12,7 +12,7 @@ from users.models import User, Profile
 
 class UserTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
-        self.user = get_object_or_404(User, email=attrs['email'])
+        self.user = get_object_or_404(User, email=attrs["email"])
         data = super().validate(attrs)
 
         refresh = self.get_token(self.user)
@@ -30,7 +30,7 @@ class UserTokenObtainPairSerializer(TokenObtainPairSerializer):
         return email
 
     def validate_password(self, password):
-        user = get_object_or_404(User, email=self.initial_data['email'])
+        user = get_object_or_404(User, email=self.initial_data["email"])
         if not user.check_password(password):
             raise ValidationError(detail="Incorrect password")
         return password
@@ -41,12 +41,12 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['first_name', 'middle_name', 'last_name',
-                  'phone', 'birth_date', 'age']
+        fields = ["first_name", "middle_name", "last_name",
+                  "phone", "birth_date", "age"]
 
     def validate(self, attrs):
-        if attrs.get('phone'):
-            attrs['phone'] = self.Meta.model.normalize_phone(attrs['phone'])
+        if attrs.get("phone"):
+            attrs["phone"] = self.Meta.model.normalize_phone(attrs["phone"])
         return attrs
 
     def get_age(self, obj):
@@ -59,8 +59,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'email', 'password', 'profile']
-        read_only_fields = ['id']
+        fields = ["id", "email", "password", "profile"]
+        read_only_fields = ["id"]
 
     def validate_email(self, email):
         if self.Meta.model.objects.filter(email=email).exists():
@@ -69,9 +69,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return User.objects.register(
-            email=validated_data['email'],
-            password=validated_data['password'],
-            profile=validated_data['profile'])
+            email=validated_data["email"],
+            password=validated_data["password"],
+            profile=validated_data["profile"])
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -79,11 +79,11 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'email', 'profile']
-        read_only_fields = ['id', 'email']
+        fields = ["id", "email", "profile"]
+        read_only_fields = ["id", "email"]
 
     def update(self, instance, validated_data):
-        super().update(instance.profile, validated_data.pop('profile'))
+        super().update(instance.profile, validated_data.pop("profile"))
         return instance
 
 
@@ -93,7 +93,7 @@ class UserCredentialsUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'old_password']
+        fields = ["email", "password", "old_password"]
 
     def validate_email(self, email):
         if self.Meta.model.objects.filter(email=email).exists():
@@ -101,20 +101,31 @@ class UserCredentialsUpdateSerializer(serializers.ModelSerializer):
         return self.Meta.model.objects.normalize_email(email)
 
     def validate_password(self, password):
-        if self.initial_data.get('old_password') and self.context['request'].user.check_password(
-                self.initial_data['old_password']):
-            if password and self.initial_data['old_password'] == password:
+        if self.initial_data.get("old_password") and self.context["request"].user.check_password(
+                self.initial_data["old_password"]):
+            if password and self.initial_data["old_password"] == password:
                 raise ValidationError("New password is the same as an old one")
-            elif not password and self.initial_data['old_password'] == password:
+            elif not password and self.initial_data["old_password"] == password:
                 raise ValidationError("To change password you must enter new one")
-        elif self.initial_data.get('old_password') and not self.context['request'].user.check_password(
-                self.initial_data['old_password']):
+        elif self.initial_data.get("old_password") and not self.context["request"].user.check_password(
+                self.initial_data["old_password"]):
             raise ValidationError("Old password you entered was incorrect")
         return password
 
     def update(self, instance, validated_data):
-        instance.email = validated_data['email']
-        if validated_data.get('password') and validated_data.get('old_password'):
-            instance.set_password(validated_data['password'])
+        instance.email = validated_data["email"]
+        if validated_data.get("password") and validated_data.get("old_password"):
+            instance.set_password(validated_data["password"])
         instance.save()
         return instance
+
+
+class MaintainerSerializer(serializers.ModelSerializer):
+    first_name = serializers.CharField(source="profile.first_name", read_only=True)
+    last_name = serializers.CharField(source="profile.last_name", read_only=True)
+    phone = serializers.CharField(source="profile.phone", read_only=True)
+
+    class Meta:
+        model = User
+        fields = ["id", "email", "phone",
+                  "first_name", "last_name"]
