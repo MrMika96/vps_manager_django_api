@@ -1,3 +1,4 @@
 /.idea
 /venv/
 practice_1/.env
+__pycache__
