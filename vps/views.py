@@ -16,7 +16,7 @@ class VpsViewSet(viewsets.ModelViewSet):
     filterset_class = VpsFilter
 
     def get_queryset(self):
-        return self.queryset.prefetch_related('maintained_by')
+        return self.queryset.prefetch_related('maintained_by', 'maintained_by__profile')
 
 
 class VpsStatusUpdateView(UpdateAPIView):
