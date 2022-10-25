@@ -1,3 +1,4 @@
+from django.db.models import Count, Case, When, F, CharField, Value
 from rest_framework import viewsets
 from rest_framework.generics import CreateAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -32,7 +33,15 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return self.queryset.select_related('profile')
+        return self.queryset.select_related('profile').annotate(
+            vps_count=Count('vps'),
+            workload=Case(
+                When(vps_count__range=[1, 3], then=Value("EASY", output_field=CharField())),
+                When(vps_count__range=[3, 8], then=Value("MEDIUM", output_field=CharField())),
+                When(vps_count__gte=9, then=Value("HARD", output_field=CharField())),
+                default=Value("VERY_EASY", output_field=CharField())
+            )
+        )
 
 
 class UserCredentialsUpdateView(UpdateAPIView):
