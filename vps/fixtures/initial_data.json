@@ -1,0 +1,184 @@
+[
+  {
+    "model": "vps.vps",
+    "pk": "0c0e8b2d-1a29-4dbd-811f-06385d68121c",
+    "fields": {
+      "cpu": 256,
+      "ram": 6000,
+      "hdd": 16000,
+      "status": "started",
+      "maintained_by": [
+        3,
+        4
+      ]
+    }
+  },
+  {
+    "model": "vps.vps",
+    "pk": "1dbd7812-22bb-449f-9b4a-1a7d4688ed47",
+    "fields": {
+      "cpu": 256,
+      "ram": 6000,
+      "hdd": 16000,
+      "status": "started",
+      "maintained_by": [
+        4
+      ]
+    }
+  },
+  {
+    "model": "vps.vps",
+    "pk": "20e3feab-d651-4056-8ad6-60913e470bd5",
+    "fields": {
+      "cpu": 4,
+      "ram": 8,
+      "hdd": 256,
+      "status": "started",
+      "maintained_by": [
+        4
+      ]
+    }
+  },
+  {
+    "model": "vps.vps",
+    "pk": "22143ac5-8dab-4a9f-9217-763b42770750",
+    "fields": {
+      "cpu": 4,
+      "ram": 4,
+      "hdd": 16,
+      "status": "started",
+      "maintained_by": [
+        3,
+        4
+      ]
+    }
+  },
+  {
+    "model": "vps.vps",
+    "pk": "3a73b773-41ca-4c05-a358-ece18f26635b",
+    "fields": {
+      "cpu": 64,
+      "ram": 32,
+      "hdd": 256,
+      "status": "started",
+      "maintained_by": [
+        4
+      ]
+    }
+  },
+  {
+    "model": "vps.vps",
+    "pk": "43c14984-fe71-4e0a-959d-77c3d3b09e29",
+    "fields": {
+      "cpu": 256,
+      "ram": 6000,
+      "hdd": 16000,
+      "status": "started",
+      "maintained_by": [
+        4
+      ]
+    }
+  },
+  {
+    "model": "vps.vps",
+    "pk": "7da9ec5e-f775-4cc0-b47d-6d51d557dbef",
+    "fields": {
+      "cpu": 256,
+      "ram": 6000,
+      "hdd": 16000,
+      "status": "started",
+      "maintained_by": [
+        4
+      ]
+    }
+  },
+  {
+    "model": "vps.vps",
+    "pk": "8a9c5876-86c4-4fd8-8744-bbad72860090",
+    "fields": {
+      "cpu": 4,
+      "ram": 4,
+      "hdd": 16,
+      "status": "started",
+      "maintained_by": [
+        3,
+        4
+      ]
+    }
+  },
+  {
+    "model": "vps.vps",
+    "pk": "8b53a0c1-361a-44bc-b8dc-e77af351062d",
+    "fields": {
+      "cpu": 256,
+      "ram": 6000,
+      "hdd": 16000,
+      "status": "started",
+      "maintained_by": [
+        3
+      ]
+    }
+  },
+  {
+    "model": "vps.vps",
+    "pk": "bd4ee3f4-9569-4fbf-bfb2-b054ff9094a1",
+    "fields": {
+      "cpu": 32,
+      "ram": 3000,
+      "hdd": 6000,
+      "status": "started",
+      "maintained_by": []
+    }
+  },
+  {
+    "model": "vps.vps",
+    "pk": "ce3d77d5-243c-45eb-b61b-8307f89cab4d",
+    "fields": {
+      "cpu": 256,
+      "ram": 6000,
+      "hdd": 16000,
+      "status": "started",
+      "maintained_by": []
+    }
+  },
+  {
+    "model": "vps.vps",
+    "pk": "e120dfdb-63a3-44cf-955f-ed51cb85574d",
+    "fields": {
+      "cpu": 256,
+      "ram": 6000,
+      "hdd": 16000,
+      "status": "started",
+      "maintained_by": [
+        3,
+        6
+      ]
+    }
+  },
+  {
+    "model": "vps.vps",
+    "pk": "ec9f1deb-bde3-49e8-b7f7-0e7720c15e5e",
+    "fields": {
+      "cpu": 64,
+      "ram": 512,
+      "hdd": 2000,
+      "status": "started",
+      "maintained_by": [
+        4
+      ]
+    }
+  },
+  {
+    "model": "vps.vps",
+    "pk": "f7005722-ba13-4f72-ad4c-e37c0e07fe83",
+    "fields": {
+      "cpu": 64,
+      "ram": 512,
+      "hdd": 2000,
+      "status": "started",
+      "maintained_by": [
+        4
+      ]
+    }
+  }
+]
