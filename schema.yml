@@ -4,14 +4,329 @@ info:
   version: 1.0.0
   description: This project was created for practice
 paths:
+  /applications/:
+    get:
+      operationId: applications_list
+      tags:
+      - applications
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Application'
+          description: ''
+    post:
+      operationId: applications_create
+      tags:
+      - applications
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Application'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Application'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Application'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+          description: ''
+  /applications/{id}:
+    get:
+      operationId: applications_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - applications
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+          description: ''
+    put:
+      operationId: applications_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - applications
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Application'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Application'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Application'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+          description: ''
+    delete:
+      operationId: applications_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - applications
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /users/:
+    get:
+      operationId: users_list
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+          description: ''
+  /users/{id}:
+    get:
+      operationId: users_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /users/auth:
+    post:
+      operationId: users_auth_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserTokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserTokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserTokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserTokenObtainPair'
+          description: ''
+  /users/change_credentials:
+    put:
+      operationId: users_change_credentials_update
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCredentialsUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserCredentialsUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserCredentialsUpdate'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentialsUpdate'
+          description: ''
+  /users/me:
+    get:
+      operationId: users_me_retrieve
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: users_me_update
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: users_me_destroy
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /users/register:
+    post:
+      operationId: users_register_create
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRegister'
+          description: ''
   /vps/:
     get:
       operationId: vps_list
+      parameters:
+      - in: query
+        name: cpu
+        schema:
+          type: integer
+      - in: query
+        name: cpu_gt
+        schema:
+          type: integer
+      - in: query
+        name: cpu_lt
+        schema:
+          type: integer
+      - in: query
+        name: hdd
+        schema:
+          type: integer
+      - in: query
+        name: hdd_gt
+        schema:
+          type: integer
+      - in: query
+        name: hdd_lt
+        schema:
+          type: integer
+      - in: query
+        name: ram
+        schema:
+          type: integer
+      - in: query
+        name: ram_gt
+        schema:
+          type: integer
+      - in: query
+        name: ram_lt
+        schema:
+          type: integer
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - blocked
+          - started
+          - stopped
       tags:
       - vps
       security:
-      - cookieAuth: []
-      - basicAuth: []
+      - jwtAuth: []
       responses:
         '200':
           content:
@@ -38,8 +353,7 @@ paths:
               $ref: '#/components/schemas/Vps'
         required: true
       security:
-      - cookieAuth: []
-      - basicAuth: []
+      - jwtAuth: []
       responses:
         '201':
           content:
@@ -60,8 +374,7 @@ paths:
       tags:
       - vps
       security:
-      - cookieAuth: []
-      - basicAuth: []
+      - jwtAuth: []
       responses:
         '200':
           content:
@@ -93,8 +406,7 @@ paths:
               $ref: '#/components/schemas/Vps'
         required: true
       security:
-      - cookieAuth: []
-      - basicAuth: []
+      - jwtAuth: []
       responses:
         '200':
           content:
@@ -114,49 +426,290 @@ paths:
       tags:
       - vps
       security:
-      - cookieAuth: []
-      - basicAuth: []
+      - jwtAuth: []
       responses:
         '204':
           description: No response body
+  /vps/status_update/{id}:
+    put:
+      operationId: vps_status_update_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - vps
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VpsStatus'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VpsStatus'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VpsStatus'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VpsStatus'
+          description: ''
 components:
   schemas:
+    Application:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 64
+        size:
+          type: number
+          format: double
+          maximum: 70000.0
+          minimum: 0.0024
+          description: Shows how much space the application would take up on the server's
+            hdd (un megabytes)
+        deployed_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        deployed_to:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Shows on which server the application was deployed
+      required:
+      - deployed_at
+      - id
+      - size
+      - title
+      - updated_at
+    Maintainer:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        phone:
+          type: string
+          readOnly: true
+        first_name:
+          type: string
+          readOnly: true
+        last_name:
+          type: string
+          readOnly: true
+      required:
+      - email
+      - first_name
+      - id
+      - last_name
+      - phone
+    Profile:
+      type: object
+      properties:
+        first_name:
+          type: string
+          maxLength: 64
+        middle_name:
+          type: string
+          maxLength: 64
+        last_name:
+          type: string
+          maxLength: 64
+        phone:
+          type: string
+          maxLength: 64
+        birth_date:
+          type: string
+          format: date
+          nullable: true
+        age:
+          type: string
+          readOnly: true
+      required:
+      - age
     StatusEnum:
       enum:
       - started
       - blocked
       - stopped
       type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          readOnly: true
+        profile:
+          allOf:
+          - $ref: '#/components/schemas/Profile'
+          description: Contains user's personal data
+        workload:
+          type: string
+          readOnly: true
+          description: Displays users workload (how many servers he/she maintaining)
+        applications_deployed:
+          type: integer
+          readOnly: true
+          default: 0
+          description: Shows how many applications was deployed to the various servers
+            by this user
+      required:
+      - applications_deployed
+      - email
+      - id
+      - profile
+      - workload
+    UserCredentialsUpdate:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        password:
+          type: string
+          writeOnly: true
+          description: This field is required for password changing. Field should
+            contain new password
+          minLength: 8
+        old_password:
+          type: string
+          writeOnly: true
+          description: This field is required for password changing. Field should
+            contain old password
+          minLength: 8
+      required:
+      - email
+    UserRegister:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        password:
+          type: string
+          writeOnly: true
+          minLength: 8
+        profile:
+          $ref: '#/components/schemas/Profile'
+      required:
+      - email
+      - id
+      - password
+      - profile
+    UserTokenObtainPair:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - email
+      - password
     Vps:
       type: object
       properties:
         id:
           type: string
           format: uuid
+          readOnly: true
         ram:
           type: integer
-          maximum: 2147483647
-          minimum: -2147483648
+          maximum: 6000
+          minimum: 4
+          description: RAM value in gigabytes
         cpu:
           type: integer
-          maximum: 2147483647
-          minimum: -2147483648
+          maximum: 256
+          minimum: 4
+          description: CPU value gigabytes
         hdd:
           type: integer
-          maximum: 2147483647
-          minimum: -2147483648
+          maximum: 16000
+          minimum: 16
+          description: HDD value in gigabytes
         status:
-          $ref: '#/components/schemas/StatusEnum'
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          readOnly: true
+        maintainers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Maintainer'
+          readOnly: true
+          default: []
+          description: Users who maintain the server
+        maintained_by:
+          type: array
+          items:
+            type: integer
+            writeOnly: true
+          writeOnly: true
+          description: Ids of users who will maintain the server
+        free_space:
+          type: number
+          format: double
+          readOnly: true
+          description: Free space of servers hdd (in gigabytes)
+        free_space_percentage:
+          type: number
+          format: double
+          readOnly: true
+          description: Free space of server's hdd in percentages
+        applications_size:
+          type: number
+          format: double
+          readOnly: true
+          description: Space on the server's hdd occupied by applications (in megabytes)
       required:
+      - applications_size
       - cpu
+      - free_space
+      - free_space_percentage
       - hdd
       - id
+      - maintainers
       - ram
+      - status
+    VpsStatus:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/StatusEnum'
   securitySchemes:
-    basicAuth:
+    jwtAuth:
       type: http
-      scheme: basic
-    cookieAuth:
-      type: apiKey
-      in: cookie
-      name: sessionid
+      scheme: bearer
+      bearerFormat: JWT

@@ -75,9 +75,17 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer()
-    workload = serializers.CharField(default=None, read_only=True)
-    applications_deployed = serializers.IntegerField(default=0, read_only=True)
+    profile = ProfileSerializer(help_text="Contains user's personal data")
+    workload = serializers.CharField(
+        default=None,
+        read_only=True,
+        help_text="Displays users workload (how many servers he/she maintaining)"
+    )
+    applications_deployed = serializers.IntegerField(
+        default=0,
+        read_only=True,
+        help_text="Shows how many applications was deployed to the various servers by this user"
+    )
 
     class Meta:
         model = User
@@ -90,8 +98,20 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserCredentialsUpdateSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=False, min_length=8)
-    old_password = serializers.CharField(write_only=True, required=False, min_length=8)
+    password = serializers.CharField(
+        write_only=True,
+        required=False,
+        min_length=8,
+        help_text="This field is required for password changing. "
+                  "Field should contain new password"
+    )
+    old_password = serializers.CharField(
+        write_only=True,
+        required=False,
+        min_length=8,
+        help_text="This field is required for password changing. "
+                  "Field should contain old password"
+    )
 
     class Meta:
         model = User

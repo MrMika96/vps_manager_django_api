@@ -16,5 +16,5 @@ urlpatterns = [
     })),
     path('auth', views.UserAuthView.as_view()),
     path('register', views.UserRegisterView.as_view()),
-    path('change_credantials', views.UserCredentialsUpdateView.as_view())
+    path('change_credentials', views.UserCredentialsUpdateView.as_view())
 ]

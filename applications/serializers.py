@@ -5,13 +5,23 @@ from vps.models import Vps
 
 
 class ApplicationSerializer(serializers.ModelSerializer):
-    deployer = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    size = serializers.FloatField(min_value=0.0024, max_value=70000.0, required=True)
+    deployer = serializers.HiddenField(
+        default=serializers.CurrentUserDefault(),
+        help_text="Shows who deployed this application to server"
+    )
+    size = serializers.FloatField(
+        min_value=0.0024,
+        max_value=70000.0,
+        required=True,
+        help_text="Shows how much space the application would take "
+                  "up on the server's hdd (un megabytes)"
+    )
     deployed_to = serializers.PrimaryKeyRelatedField(
         source="vps_set",
         queryset=Vps.objects.all(),
         required=False,
-        many=True
+        many=True,
+        help_text="Shows on which server the application was deployed"
     )
 
     class Meta:
