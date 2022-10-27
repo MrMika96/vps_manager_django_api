@@ -6,7 +6,10 @@ from rest_framework.permissions import IsAuthenticated
 
 from vps.filters import VpsFilter
 from vps.models import Vps
-from vps.serializers import VpsSerializer, VpsStatusSerializer, VpsSingleSerializer
+from vps.serializers import (
+    VpsSerializer, VpsStatusSerializer,
+    VpsSingleSerializer
+)
 
 
 class VpsViewSet(viewsets.ModelViewSet):
