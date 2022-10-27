@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from applications.serializers import ApplicationShortSerializer
 from users.models import User
 from users.serializers import MaintainerSerializer
 from vps.models import Vps
@@ -33,13 +34,17 @@ class VpsSerializer(serializers.ModelSerializer):
         read_only=True,
         default=[]
     )
+    free_space = serializers.FloatField(read_only=True)
+    free_space_percentage = serializers.FloatField(read_only=True)
+    applications_size = serializers.FloatField(read_only=True)
 
     class Meta:
         model = Vps
         fields = [
             "id", "ram", "cpu",
             "hdd", "status", "maintainers",
-            "maintained_by"
+            "maintained_by", "free_space",
+            "free_space_percentage", "applications_size"
         ]
         read_only_fields = [
             "status"
@@ -61,3 +66,29 @@ class VpsStatusSerializer(serializers.ModelSerializer):
         model = Vps
         fields = ["status"]
         write_only_fields = ["status"]
+
+
+class VpsSingleSerializer(serializers.ModelSerializer):
+    maintainers = MaintainerSerializer(
+        source='maintained_by',
+        many=True,
+        read_only=True,
+        default=[]
+    )
+    free_space = serializers.FloatField(read_only=True)
+    free_space_percentage = serializers.FloatField(read_only=True)
+    applications_size = serializers.FloatField(read_only=True)
+    deployed_applications = ApplicationShortSerializer(many=True, read_only=True, default=[])
+
+    class Meta:
+        model = Vps
+        fields = [
+            "id", "ram", "cpu",
+            "hdd", "status", "maintainers",
+            "free_space", "free_space_percentage",
+            "applications_size", "deployed_applications"
+        ]
+        read_only_fields = [
+            "id", "ram", "cpu",
+            "hdd", "status"
+        ]

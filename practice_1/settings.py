@@ -40,8 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'drf_spectacular',
     'django_filters',
-    'vps',
     'users',
+    'vps',
+    'applications',
 ]
 
 MIDDLEWARE = [
