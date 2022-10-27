@@ -77,10 +77,11 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()
     workload = serializers.CharField(default=None, read_only=True)
+    applications_deployed = serializers.IntegerField(default=0, read_only=True)
 
     class Meta:
         model = User
-        fields = ["id", "email", "profile", "workload"]
+        fields = ["id", "email", "profile", "workload", "applications_deployed"]
         read_only_fields = ["id", "email"]
 
     def update(self, instance, validated_data):
