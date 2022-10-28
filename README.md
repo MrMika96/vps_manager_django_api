@@ -34,7 +34,7 @@ class User(AbstractBaseUser):
         db_table = 'user'
         ordering = ['id']
 /
-***PROFILE***/
+***PROFILE***
 class Profile(models.Model):
     last_name = models.CharField(max_length=64, blank=True, null=False) - Фамилия пользователя
     first_name = models.CharField(max_length=64, blank=True, null=False) - Имя пользователя
@@ -81,7 +81,7 @@ class Profile(models.Model):
         else:
             msg = 'The phone number must contain only numbers and start with a plus sign!'
             raise ValidationError(msg)
-/
+
 ***APPLICATIONS/
 class Application(models.Model):
     title = models.CharField(max_length=64) - название прилодения
