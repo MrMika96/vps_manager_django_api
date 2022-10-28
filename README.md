@@ -1,13 +1,13 @@
 # practice_1
-***ДАННЫЙ ПРОЕКТ ЯВЛЯЕТСЯ ПРАКТИКОЙ, ЧТОБЫ НЕ РАСТЕРЯТЬ УЖЕ ИМЕЮЩИЕСЯ ЗНАНИЯ И ПОПРОБОВАТЬ ЧТО-ТО НОВОЕ***<br/>
+***ДАННЫЙ ПРОЕКТ ЯВЛЯЕТСЯ ПРАКТИКОЙ, ЧТОБЫ НЕ РАСТЕРЯТЬ УЖЕ ИМЕЮЩИЕСЯ ЗНАНИЯ И ПОПРОБОВАТЬ ЧТО-ТО НОВОЕ***<br />
 Данный проект представляет собой сервис по управлению виртуальными серверами (VPS). Проект написан на DRF, для документирования API используется OpenApi 3,
 для авторизации выбрана авторизация по JWT токену.
 Что такое VPS:
 VDS (Virtual Dedicated Server) или VPS (Virtual Private Server) — это хостинг-услуга, где пользователю предоставляется виртуальный сервер 
 с максимальными привилегиями. VDS или VPS эмулирует работу реального физического сервера — есть root-доступ, возможна установка своих операционных
 систем и программного обеспечения. На одном физическом сервере обычно работает несколько независимых виртуальных серверов.
-В проекте (на данный момент) имеется 4 модели: Vps, Users, Profile, Applications.<br/>
-***VPS***<br/>
+В проекте (на данный момент) имеется 4 модели: Vps, Users, Profile, Applications.<br />
+***VPS***<br />
 ```python
 class Vps(models.Model):
     STATUSES = [
@@ -23,8 +23,8 @@ class Vps(models.Model):
     maintained_by = models.ManyToManyField(User) - список юзеров, которые занимаются администрированием сервера
     deployed_applications = models.ManyToManyField(Application) - список приложений (программ), развернутых на сервере
 ```
-<br/>
-***USERS***<br/>
+<br />
+***USERS***<br />
 ```python
 class User(AbstractBaseUser):
     email = models.EmailField(unique=True) - электронная почта пользователя, используется для авторизации в системе
@@ -37,8 +37,8 @@ class User(AbstractBaseUser):
         db_table = 'user'
         ordering = ['id']
 ```
-<br/>
-***PROFILE***<br/>
+<br />
+***PROFILE***<br />
 ```python
 class Profile(models.Model):
     last_name = models.CharField(max_length=64, blank=True, null=False) - Фамилия пользователя
@@ -87,8 +87,8 @@ class Profile(models.Model):
             msg = 'The phone number must contain only numbers and start with a plus sign!'
             raise ValidationError(msg)
 ```
-<br/>
-***APPLICATIONS<br/>
+<br />
+***APPLICATIONS<br />
 ```python
 class Application(models.Model):
     title = models.CharField(max_length=64) - название прилодения
