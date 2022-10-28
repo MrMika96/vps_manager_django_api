@@ -1,13 +1,13 @@
 # practice_1
-***ДАННЫЙ ПРОЕКТ ЯВЛЯЕТСЯ ПРАКТИКОЙ, ЧТОБЫ НЕ РАСТЕРЯТЬ УЖЕ ИМЕЮЩИЕСЯ ЗНАНИЯ И ПОПРОБОВАТЬ ЧТО-ТО НОВОЕ***\
+***ДАННЫЙ ПРОЕКТ ЯВЛЯЕТСЯ ПРАКТИКОЙ, ЧТОБЫ НЕ РАСТЕРЯТЬ УЖЕ ИМЕЮЩИЕСЯ ЗНАНИЯ И ПОПРОБОВАТЬ ЧТО-ТО НОВОЕ***<br/>
 Данный проект представляет собой сервис по управлению виртуальными серверами (VPS). Проект написан на DRF, для документирования API используется OpenApi 3,
 для авторизации выбрана авторизация по JWT токену.
 Что такое VPS:
 VDS (Virtual Dedicated Server) или VPS (Virtual Private Server) — это хостинг-услуга, где пользователю предоставляется виртуальный сервер 
 с максимальными привилегиями. VDS или VPS эмулирует работу реального физического сервера — есть root-доступ, возможна установка своих операционных
 систем и программного обеспечения. На одном физическом сервере обычно работает несколько независимых виртуальных серверов.
-В проекте (на данный момент) имеется 4 модели: Vps, Users, Profile, Applications./
-***VPS***/
+В проекте (на данный момент) имеется 4 модели: Vps, Users, Profile, Applications.<br/>
+***VPS***<br/>
 class Vps(models.Model):
     STATUSES = [
         ("started", "started"),
@@ -21,8 +21,8 @@ class Vps(models.Model):
     status = models.CharField(choices=STATUSES, default="started", max_length=7) - статус сервера (Возможные статусы указаны в STATUSES)
     maintained_by = models.ManyToManyField(User) - список юзеров, которые занимаются администрированием сервера
     deployed_applications = models.ManyToManyField(Application) - список приложений (программ), развернутых на сервере
-/
-***USERS***/
+<br/>
+***USERS***<br/>
 class User(AbstractBaseUser):
     email = models.EmailField(unique=True) - электронная почта пользователя, используется для авторизации в системе
     created_at = models.DateTimeField(null=True, auto_now_add=True, editable=False)
@@ -33,8 +33,8 @@ class User(AbstractBaseUser):
     class Meta:
         db_table = 'user'
         ordering = ['id']
-/
-***PROFILE***
+<br/>
+***PROFILE***<br/>
 class Profile(models.Model):
     last_name = models.CharField(max_length=64, blank=True, null=False) - Фамилия пользователя
     first_name = models.CharField(max_length=64, blank=True, null=False) - Имя пользователя
@@ -81,8 +81,8 @@ class Profile(models.Model):
         else:
             msg = 'The phone number must contain only numbers and start with a plus sign!'
             raise ValidationError(msg)
-
-***APPLICATIONS/
+<br/>
+***APPLICATIONS<br/>
 class Application(models.Model):
     title = models.CharField(max_length=64) - название прилодения
     deployer = models.ForeignKey(User, null=True, on_delete=models.SET_NULL) - пользователь, который развернул приложение на сервере
