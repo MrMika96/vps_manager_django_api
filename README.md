@@ -96,8 +96,8 @@ class Application(models.Model):
     size = models.FloatField() - сколько место занимает приложение на жестком диске сервера (в мегабайтах)
     deployed_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-```
 
     class Meta:
         db_table = 'applications'
         ordering = ['title']
+```
