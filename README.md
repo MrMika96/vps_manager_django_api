@@ -17,12 +17,12 @@ class Vps(models.Model):
         ("stopped", "stopped"),
     ]
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    cpu = models.IntegerField() # кол-во ядер сервера
-    ram = models.IntegerField() # кол-во оперативноя памяти сервера (в гигабайтах)
-    hdd = models.IntegerField() # объем жесткого диска сервера (в гигабайтах)
-    status = models.CharField(choices=STATUSES, default="started", max_length=7) - статус сервера (Возможные статусы указаны в STATUSES)
-    maintained_by = models.ManyToManyField(User) - список юзеров, которые занимаются администрированием сервера
-    deployed_applications = models.ManyToManyField(Application) - список приложений (программ), развернутых на сервере
+    cpu = models.IntegerField() # Кол-во ядер сервера
+    ram = models.IntegerField() # Кол-во оперативноя памяти сервера (в гигабайтах)
+    hdd = models.IntegerField() # Объем жесткого диска сервера (в гигабайтах)
+    status = models.CharField(choices=STATUSES, default="started", max_length=7) # Статус сервера (Возможные статусы указаны в STATUSES)
+    maintained_by = models.ManyToManyField(User) # Список юзеров, которые занимаются администрированием сервера
+    deployed_applications = models.ManyToManyField(Application) # Список приложений (программ), развернутых на сервере
 ```
         
 <br />***USERS***<br />
