@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 
 from applications.models import Application
 from vps.models import Vps
@@ -33,6 +34,21 @@ class ApplicationSerializer(serializers.ModelSerializer):
         read_only_fields = [
             "deployed_at", "updated_at"
         ]
+
+    def validate_deployed_to(self, deployed_to):
+        vps_with_filled_hdd = []
+        if deployed_to:
+            for vps in deployed_to:
+                applications_size = sum(
+                    list(
+                        vps.deployed_applications.values_list("size", flat=True))
+                ) + self.initial_data['size']
+                if (vps.hdd - applications_size/1000) <= 0:
+                    vps_with_filled_hdd.append(str(vps.id))
+        if vps_with_filled_hdd:
+            raise ValidationError(detail=f"This servers don`t have enough "
+                                         f"free space on their hdd: {vps_with_filled_hdd}")
+        return deployed_to
 
     def create(self, validated_data):
         validated_data.pop("vps_set")
