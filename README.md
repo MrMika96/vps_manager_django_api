@@ -25,8 +25,7 @@ class Vps(models.Model):
     deployed_applications = models.ManyToManyField(Application) - список приложений (программ), развернутых на сервере
 ```
         
-<br />
-***USERS***<br />
+<br />***USERS***<br />
         
 ```python
 class User(AbstractBaseUser):
@@ -92,7 +91,7 @@ class Profile(models.Model):
             raise ValidationError(msg)
 ```
         
-<br />***APPLICATIONS<br />
+<br />***APPLICATIONS***<br />
         
 ```python
 class Application(models.Model):
