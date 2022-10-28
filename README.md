@@ -22,7 +22,7 @@ class Vps(models.Model):
     status = models.CharField(choices=STATUSES, default="started", max_length=7) - статус сервера (Возможные статусы указаны в STATUSES)
     maintained_by = models.ManyToManyField(User) - список юзеров, которые занимаются администрированием сервера
     deployed_applications = models.ManyToManyField(Application) - список приложений (программ), развернутых на сервере
-```
+  ```
 <br />
 ***USERS***<br />
 ```python
@@ -37,8 +37,12 @@ class User(AbstractBaseUser):
         db_table = 'user'
         ordering = ['id']
 ```
+
+
 <br />
 ***PROFILE***<br />
+
+
 ```python
 class Profile(models.Model):
     last_name = models.CharField(max_length=64, blank=True, null=False) - Фамилия пользователя
@@ -87,8 +91,12 @@ class Profile(models.Model):
             msg = 'The phone number must contain only numbers and start with a plus sign!'
             raise ValidationError(msg)
 ```
+
+
 <br />
 ***APPLICATIONS<br />
+
+
 ```python
 class Application(models.Model):
     title = models.CharField(max_length=64) - название прилодения
@@ -101,3 +109,4 @@ class Application(models.Model):
         db_table = 'applications'
         ordering = ['title']
 ```
+
