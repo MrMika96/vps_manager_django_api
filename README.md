@@ -17,9 +17,9 @@ class Vps(models.Model):
         ("stopped", "stopped"),
     ]
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    cpu = models.IntegerField() - кол-во ядер сервера
-    ram = models.IntegerField() - кол-во оперативноя памяти сервера (в гигабайтах)
-    hdd = models.IntegerField() - объем жесткого диска сервера (в гигабайтах)
+    cpu = models.IntegerField() # кол-во ядер сервера
+    ram = models.IntegerField() # кол-во оперативноя памяти сервера (в гигабайтах)
+    hdd = models.IntegerField() # объем жесткого диска сервера (в гигабайтах)
     status = models.CharField(choices=STATUSES, default="started", max_length=7) - статус сервера (Возможные статусы указаны в STATUSES)
     maintained_by = models.ManyToManyField(User) - список юзеров, которые занимаются администрированием сервера
     deployed_applications = models.ManyToManyField(Application) - список приложений (программ), развернутых на сервере
@@ -29,7 +29,7 @@ class Vps(models.Model):
         
 ```python
 class User(AbstractBaseUser):
-    email = models.EmailField(unique=True) - электронная почта пользователя, используется для авторизации в системе
+    email = models.EmailField(unique=True) # электронная почта пользователя, используется для авторизации в системе
     created_at = models.DateTimeField(null=True, auto_now_add=True, editable=False)
     objects = UserMnanager()
 
@@ -44,13 +44,13 @@ class User(AbstractBaseUser):
         
 ```python
 class Profile(models.Model):
-    last_name = models.CharField(max_length=64, blank=True, null=False) - Фамилия пользователя
-    first_name = models.CharField(max_length=64, blank=True, null=False) - Имя пользователя
-    middle_name = models.CharField(max_length=64, blank=True) - Отчество пользователя
-    phone = models.CharField(max_length=64, blank=True) - Телефонный номер пользователя
-    birth_date = models.DateField(null=True, blank=True) - Дата рождения пользователя
+    last_name = models.CharField(max_length=64, blank=True, null=False) # Фамилия пользователя
+    first_name = models.CharField(max_length=64, blank=True, null=False) # Имя пользователя
+    middle_name = models.CharField(max_length=64, blank=True) # Отчество пользователя
+    phone = models.CharField(max_length=64, blank=True) # Телефонный номер пользователя
+    birth_date = models.DateField(null=True, blank=True) # Дата рождения пользователя
 
-    user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE, primary_key=True) - юзер, которому принадлежит данный профиль
+    user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE, primary_key=True) # Юзер, которому принадлежит данный профиль
 
     class Meta:
         db_table = 'profile'
@@ -62,7 +62,7 @@ class Profile(models.Model):
         ]
 
     @staticmethod
-    def check_phone_len(phone): - метод для проверки длинны введенного телефонного номера
+    def check_phone_len(phone): # Метод для проверки длинны введенного телефонного номера
         """Phone len must be greater or equal than 5 digits and less or equal than 19.
          If it is not, returns False"""
         if phone.isdigit():
@@ -70,7 +70,7 @@ class Profile(models.Model):
         return 5 <= len(phone[1:]) <= 19
 
     @classmethod
-    def normalize_phone(cls, phone): - метод, приводящий телефонные номера под стандарт РФ
+    def normalize_phone(cls, phone): # Метод, приводящий телефонные номера под стандарт РФ
         characters_to_remove = ['-', ' ', '.', '*', '(', ')', '/']
         for character in characters_to_remove:
             phone = phone.replace(character, '')
@@ -95,9 +95,9 @@ class Profile(models.Model):
         
 ```python
 class Application(models.Model):
-    title = models.CharField(max_length=64) - название прилодения
-    deployer = models.ForeignKey(User, null=True, on_delete=models.SET_NULL) - пользователь, который развернул приложение на сервере
-    size = models.FloatField() - сколько место занимает приложение на жестком диске сервера (в мегабайтах)
+    title = models.CharField(max_length=64) # Название прилодения
+    deployer = models.ForeignKey(User, null=True, on_delete=models.SET_NULL) # Пользователь, который развернул приложение на сервере
+    size = models.FloatField() # Сколько место занимает приложение на жестком диске сервера (в мегабайтах)
     deployed_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
