@@ -37,7 +37,7 @@ class VpsViewSet(viewsets.ModelViewSet):
         )
 
     def get_serializer_class(self):
-        if self.request.method == 'GET' and self.kwargs.get('pk'):
+        if self.request.method == "GET" and self.kwargs.get("pk"):
             return VpsSingleSerializer
         return self.serializer_class
 

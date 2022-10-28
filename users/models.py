@@ -11,15 +11,15 @@ class UserMnanager(models.Manager):
     @staticmethod
     def normalize_email(email):
         try:
-            email_name, domain_part = email.strip().rsplit('@', 1)
+            email_name, domain_part = email.strip().rsplit("@", 1)
         except (ValueError, AttributeError):
             pass
         else:
-            email = f'{email_name}@{domain_part}'.lower()
+            email = f"{email_name}@{domain_part}".lower()
         return email
 
     @atomic
-    def _register(self, password: str, profile: dict, email: str) -> 'User':
+    def _register(self, password: str, profile: dict, email: str) -> "User":
         email = self.normalize_email(email)
         user = self.create(email=email)
 
@@ -41,11 +41,11 @@ class User(AbstractBaseUser):
     created_at = models.DateTimeField(null=True, auto_now_add=True, editable=False)
     objects = UserMnanager()
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
 
     class Meta:
-        db_table = 'user'
-        ordering = ['id']
+        db_table = "user"
+        ordering = ["id"]
 
 
 class Profile(models.Model):
@@ -55,15 +55,15 @@ class Profile(models.Model):
     phone = models.CharField(max_length=64, blank=True)
     birth_date = models.DateField(null=True, blank=True)
 
-    user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, related_name="profile", on_delete=models.CASCADE, primary_key=True)
 
     class Meta:
-        db_table = 'profile'
-        ordering = ['last_name']
+        db_table = "profile"
+        ordering = ["last_name"]
         indexes = [
-            models.Index(fields=['first_name']),
-            models.Index(fields=['middle_name']),
-            models.Index(fields=['last_name']),
+            models.Index(fields=["first_name"]),
+            models.Index(fields=["middle_name"]),
+            models.Index(fields=["last_name"]),
         ]
 
     @staticmethod
@@ -76,21 +76,21 @@ class Profile(models.Model):
 
     @classmethod
     def normalize_phone(cls, phone):
-        characters_to_remove = ['-', ' ', '.', '*', '(', ')', '/']
+        characters_to_remove = ["-", " ", ".", "*", "(", ")", "/"]
         for character in characters_to_remove:
-            phone = phone.replace(character, '')
+            phone = phone.replace(character, "")
         if not cls.check_phone_len(phone):
-            msg = 'Phone number must be between 5 and 19 characters!'
+            msg = "Phone number must be between 5 and 19 characters!"
             raise ValidationError(msg)
 
-        if phone.startswith('8') and len(phone) == 11 and phone.isdigit():
-            return '+7' + phone[1:]
-        elif phone.startswith('+7') and len(phone) == 12 and phone[1:].isdigit():
+        if phone.startswith("8") and len(phone) == 11 and phone.isdigit():
+            return "+7" + phone[1:]
+        elif phone.startswith("+7") and len(phone) == 12 and phone[1:].isdigit():
             return phone
-        elif phone.startswith('+') and phone[1:].isdigit():
+        elif phone.startswith("+") and phone[1:].isdigit():
             return phone
         elif phone.isdigit():
-            return '+' + phone
+            return "+" + phone
         else:
-            msg = 'The phone number must contain only numbers and start with a plus sign!'
+            msg = "The phone number must contain only numbers and start with a plus sign!"
             raise ValidationError(msg)

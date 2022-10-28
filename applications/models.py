@@ -11,5 +11,5 @@ class Application(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = 'applications'
-        ordering = ['title']
+        db_table = "applications"
+        ordering = ["title"]

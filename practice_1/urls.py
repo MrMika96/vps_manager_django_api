@@ -18,10 +18,10 @@ from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 urlpatterns = [
-    path("users/", include('users.urls')),
-    path("vps/", include('vps.urls')),
-    path("applications/", include('applications.urls')),
-    path('admin/', admin.site.urls),
+    path("users/", include("users.urls")),
+    path("vps/", include("vps.urls")),
+    path("applications/", include("applications.urls")),
+    path("admin/", admin.site.urls),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
 
     path("schema/", SpectacularAPIView.as_view(), name="schema"),

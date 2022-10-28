@@ -42,7 +42,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
                 applications_size = sum(
                     list(
                         vps.deployed_applications.values_list("size", flat=True))
-                ) + self.initial_data['size']
+                ) + self.initial_data["size"]
                 if (vps.hdd - applications_size/1000) <= 0:
                     vps_with_filled_hdd.append(str(vps.id))
         if vps_with_filled_hdd:
@@ -53,13 +53,13 @@ class ApplicationSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data.pop("vps_set")
         new_app = super(ApplicationSerializer, self).create(validated_data)
-        new_app.vps_set.set(self.validated_data.get('vps_set'))
+        new_app.vps_set.set(self.validated_data.get("vps_set"))
         return new_app
 
     def update(self, instance, validated_data):
         validated_data.pop("vps_set")
         app = super(ApplicationSerializer, self).update(instance=instance, validated_data=validated_data)
-        app.vps_set.set(self.validated_data.get('vps_set'))
+        app.vps_set.set(self.validated_data.get("vps_set"))
         return app
 
 

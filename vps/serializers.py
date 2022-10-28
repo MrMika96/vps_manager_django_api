@@ -63,12 +63,12 @@ class VpsSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         new_vps = super(VpsSerializer, self).create(validated_data)
-        new_vps.maintained_by.set(self.validated_data.get('maintained_by'))
+        new_vps.maintained_by.set(self.validated_data.get("maintained_by"))
         return new_vps
 
     def update(self, instance, validated_data):
         vps = super(VpsSerializer, self).update(instance=instance, validated_data=validated_data)
-        vps.maintained_by.set(self.validated_data.get('maintained_by'))
+        vps.maintained_by.set(self.validated_data.get("maintained_by"))
         return vps
 
 
@@ -81,7 +81,7 @@ class VpsStatusSerializer(serializers.ModelSerializer):
 
 class VpsSingleSerializer(serializers.ModelSerializer):
     maintainers = MaintainerSerializer(
-        source='maintained_by',
+        source="maintained_by",
         many=True,
         read_only=True,
         default=[]
