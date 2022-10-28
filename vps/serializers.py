@@ -10,7 +10,7 @@ class VpsSerializer(serializers.ModelSerializer):
     cpu = serializers.IntegerField(
         min_value=4,
         max_value=256,
-        help_text="CPU value gigabytes"
+        help_text="Number of CPU cores"
     )
     ram = serializers.IntegerField(
         min_value=4,

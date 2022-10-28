@@ -654,7 +654,7 @@ components:
           type: integer
           maximum: 256
           minimum: 4
-          description: CPU value gigabytes
+          description: Number of CPU cores
         hdd:
           type: integer
           maximum: 16000
