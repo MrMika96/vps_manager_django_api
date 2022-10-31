@@ -73,8 +73,8 @@ class VpsViewSet(viewsets.ModelViewSet):
         page = self.paginate_queryset(data)
         return Response(OrderedDict([
             ('count', pagination.get_count(data)),
-            ('next', pagination.get_next_link()),
-            ('previous', pagination.get_previous_link()),
+            ('next', self.pagination_class.get_next_link),
+            ('previous', self.pagination_class.get_previous_link),
             ('started', status_count["started"]),
             ('blocked', status_count["blocked"]),
             ('stopped', status_count["stopped"]),
