@@ -1,4 +1,5 @@
 from django.db.models import Count, Case, When, CharField, Value
+from drf_spectacular.utils import extend_schema_view, extend_schema
 from rest_framework import viewsets
 from rest_framework.generics import CreateAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -11,15 +12,36 @@ from users.serializers import (
 )
 
 
+@extend_schema_view(
+    post=extend_schema(description="Takes a set of user credentials and returns "
+                                   "an access and refresh JSON web token pair "
+                                   "to prove the authentication of those credentials.",
+                       summary="User authorization in the system"
+                       )
+)
 class UserAuthView(TokenObtainPairView):
     serializer_class = UserTokenObtainPairSerializer
 
 
+@extend_schema_view(
+    post=extend_schema(description="User system registration, takes users email, "
+                                   "password and profile data and saves it in our system",
+                       summary="User registration in the system"
+                       )
+)
 class UserRegisterView(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserRegisterSerializer
 
 
+@extend_schema_view(
+    retrieve=extend_schema(description="Route for viewing your own information",
+                           summary="Get authorized user data"),
+    update=extend_schema(description="Route for updating your profile information",
+                         summary="Update authorized user data"),
+    destroy=extend_schema(description="Route for deletion of your own account from system",
+                          summary="delete authorized user")
+)
 class UserMeViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -44,6 +66,13 @@ class UserMeViewSet(viewsets.ModelViewSet):
         ).first()
 
 
+@extend_schema_view(
+    list=extend_schema(description="Route for viewing all users who have been registered in the system",
+                       summary="View all users"),
+    retrieve=extend_schema(description="Route for viewing specific users, via user id,  "
+                                       "who have been registered in the system",
+                           summary="View specific user")
+)
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -62,6 +91,10 @@ class UserViewSet(viewsets.ModelViewSet):
         )
 
 
+@extend_schema_view(
+    put=extend_schema(description="This route is only for changing authorized user email and password",
+                      summary="Authorized user credentials update")
+)
 class UserCredentialsUpdateView(UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserCredentialsUpdateSerializer

@@ -1,5 +1,6 @@
 from django.db.models import F, Sum, Case, When, Value, FloatField, ExpressionWrapper, Count, Q
 from django_filters import rest_framework as filters
+from drf_spectacular.utils import extend_schema_view, extend_schema
 from rest_framework import viewsets
 from rest_framework.generics import UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -14,6 +15,12 @@ from vps.serializers import (
 )
 
 
+@extend_schema_view(
+    list=extend_schema(description="View all of the existing vps in our system",
+                       summary="View vps"),
+    create=extend_schema(description="Add new vps to our system",
+                         summary="Create new vps")
+)
 class VpsViewSet(viewsets.ModelViewSet):
     queryset = Vps.objects.all()
     permission_classes = [IsAuthenticated]
@@ -62,6 +69,10 @@ class VpsViewSet(viewsets.ModelViewSet):
             return Response(status_count)
 
 
+@extend_schema_view(
+    put=extend_schema(description="This route is used for vps status update only",
+                      summary="Vps status update")
+)
 class VpsStatusUpdateView(UpdateAPIView):
     queryset = Vps.objects.all()
     permission_classes = [IsAuthenticated]
