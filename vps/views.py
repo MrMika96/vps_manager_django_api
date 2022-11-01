@@ -19,7 +19,13 @@ from vps.serializers import (
     list=extend_schema(description="View all of the existing vps in our system",
                        summary="View vps"),
     create=extend_schema(description="Add new vps to our system",
-                         summary="Create new vps")
+                         summary="Create new vps"),
+    retrieve=extend_schema(description="View specific existing vps in our system",
+                           summary="View specific vps"),
+    update=extend_schema(description="Updates data about existing vps in our system",
+                         summary="Update existing vps"),
+    destroy=extend_schema(description="Deletion of existing vps from our system",
+                          summary="Delete existing vps")
 )
 class VpsViewSet(viewsets.ModelViewSet):
     queryset = Vps.objects.all()
