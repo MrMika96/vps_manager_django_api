@@ -4,7 +4,7 @@ from django.db.transaction import atomic
 from rest_framework.exceptions import ValidationError
 
 
-class UserMnanager(models.Manager):
+class UserManager(models.Manager):
     def get_by_natural_key(self, username):
         return self.get(**{self.model.USERNAME_FIELD: username})
 
@@ -39,7 +39,7 @@ class UserMnanager(models.Manager):
 class User(AbstractBaseUser):
     email = models.EmailField(unique=True)
     created_at = models.DateTimeField(null=True, auto_now_add=True, editable=False)
-    objects = UserMnanager()
+    objects = UserManager()
 
     USERNAME_FIELD = "email"
 
