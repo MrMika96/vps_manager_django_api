@@ -50,7 +50,7 @@ class UserMeViewSet(viewsets.ModelViewSet):
     def get_object(self):
         return self.queryset.filter(
             id=self.request.user.id
-        ).prefetch_related(
+        ).select_related(
             "application_set", "profile"
         ).annotate(
             vps_count=Count("vps"),
@@ -77,7 +77,7 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return self.queryset.prefetch_related(
+        return self.queryset.select_related(
             "application_set", "profile"
         ).annotate(
             vps_count=Count("vps"),
