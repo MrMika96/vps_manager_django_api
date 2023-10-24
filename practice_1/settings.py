@@ -24,8 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-i=svswl3s2&*fe$0!l@hq)2s_yc$327587k3ndx6q)inl0*p#j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG_SQL_QUERIES = config('DEBUG_SQL_QUERIES', default=False, cast=bool)
+LOCAL = config('LOCAL', default=False, cast=bool)
+BASE_HOST = config('BASE_HOST')
 ALLOWED_HOSTS = []
 
 
@@ -54,6 +56,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+if DEBUG_SQL_QUERIES:
+    MIDDLEWARE += ['utils.sql_utils.PrintSqlQuery']
 
 ROOT_URLCONF = 'practice_1.urls'
 
@@ -149,7 +154,24 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'This project was created for practice',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
+    'CONTACT': {'mikamc1996@gmail.com'},
+    'SERVE_PUBLIC': True,
+    'COMPONENT_SPLIT_REQUEST': True,
+    # 'SCHEMA_PATH_PREFIX_INSERT': '/v1.0' if not LOCAL else None,
+    'SERVERS': [{
+        'url': '{protocol}:/',
+        'variables': {
+            'protocol': {
+                'enum': ['http', 'https'],
+                'default': 'https'
+            }
+        }
+    }],
+    # 'SWAGGER_UI_DIST': 'SIDECAR',
+    # 'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
 }
+# CSP_DEFAULT_SRC = ("'self'", "'unsafe-inline'", "cdn.jsdelivr.net")
+# CSP_IMG_SRC = ("'self'", "data:", "cdn.jsdelivr.net")
 
 AUTH_USER_MODEL = 'users.User'
 

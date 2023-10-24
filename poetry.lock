@@ -265,6 +265,28 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
+name = "pygments"
+version = "2.16.1"
+description = "Pygments is a syntax highlighting package written in Python."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+plugins = ["importlib-metadata"]
+
+[[package]]
+name = "pygments-pprint-sql"
+version = "0.1.0"
+description = "Pretty format your SQL queries for easier reading."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+Pygments = "*"
+
+[[package]]
 name = "pyjwt"
 version = "2.6.0"
 description = "JSON Web Token implementation in Python"
@@ -376,7 +398,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "2598978e88c3722d2847ab1b3e63003e8922fbd76199c181dc54cffcf52b9f22"
+content-hash = "9e399f348d752023c9004968e2a81341ad7ee1d20853dc0677ab1734630abc82"
 
 [metadata.files]
 asgiref = [
@@ -600,6 +622,13 @@ psycopg2-binary = [
     {file = "psycopg2_binary-2.9.4-cp39-cp39-musllinux_1_1_x86_64.whl", hash = "sha256:6a1618260a112a9c93504511f0b6254b4402a8c41b7130dc6d4c9e39aff3aa0c"},
     {file = "psycopg2_binary-2.9.4-cp39-cp39-win32.whl", hash = "sha256:e02f77b620ad6b36564fe41980865436912e21a3b1138cdde175cf24afde1bc5"},
     {file = "psycopg2_binary-2.9.4-cp39-cp39-win_amd64.whl", hash = "sha256:44f5dc9b4384bafca8429759ce76c8960ffc2b583fcad9e5dfb3e5f4894269e4"},
+]
+pygments = [
+    {file = "Pygments-2.16.1-py3-none-any.whl", hash = "sha256:13fc09fa63bc8d8671a6d247e1eb303c4b343eaee81d861f3404db2935653692"},
+    {file = "Pygments-2.16.1.tar.gz", hash = "sha256:1daff0494820c69bc8941e407aa20f577374ee88364ee10a98fdbe0aece96e29"},
+]
+pygments-pprint-sql = [
+    {file = "pygments-pprint-sql-0.1.0.tar.gz", hash = "sha256:741dc47408ea7b1279b3272f4deb10074ea952a94418b6490f20ed187beba498"},
 ]
 pyjwt = [
     {file = "PyJWT-2.6.0-py3-none-any.whl", hash = "sha256:d83c3d892a77bbb74d3e1a2cfa90afaadb60945205d1095d9221f04466f64c14"},
