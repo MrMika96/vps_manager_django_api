@@ -150,7 +150,7 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Practice',
+    'TITLE': 'VPS Manager',
     'DESCRIPTION': 'This project was created for practice',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
