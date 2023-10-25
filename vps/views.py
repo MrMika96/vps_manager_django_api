@@ -10,7 +10,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from practice_1.paginations import VpsLimitOffsetPagination
+from vps_manager_django_api.paginations import VpsLimitOffsetPagination
 from vps.filters import VpsFilter
 from vps.models import Vps
 from vps.serializers import (

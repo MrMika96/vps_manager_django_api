@@ -3,7 +3,7 @@ from pprint import pprint
 from django.db import connection
 from django.utils.deprecation import MiddlewareMixin
 
-from practice_1 import settings
+from vps_manager_django_api import settings
 
 
 def get_client_ip(request):

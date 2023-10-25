@@ -1,5 +1,5 @@
 /.idea
 /venv/
-practice_1/.env
 __pycache__
 *.pyc
+/vps_manager_django_api/.env

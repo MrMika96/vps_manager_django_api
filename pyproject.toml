@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "practice_1"
+name = "vps_manager_django_api"
 version = "0.1.0"
 description = "Just practicing"
 authors = ["MrMika96 <mikamc1996@gmail.com>"]
