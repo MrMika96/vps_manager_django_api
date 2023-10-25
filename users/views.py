@@ -11,6 +11,17 @@ from users.serializers import (
     UserSerializer, UserCredentialsUpdateSerializer
 )
 
+annotate_fields = {
+            'vps_count': Count("vps"),
+            'workload': Case(
+                When(vps_count__range=[1, 3], then=Value("EASY", output_field=CharField())),
+                When(vps_count__range=[3, 8], then=Value("MEDIUM", output_field=CharField())),
+                When(vps_count__gte=9, then=Value("HARD", output_field=CharField())),
+                default=Value("VERY_EASY", output_field=CharField())
+            ),
+            'applications_deployed': Count("application", distinct=True)
+        }  # вынес аннотейт в глобальную переменную, чтобы избежать дублирования кода в двух вьюхах
+
 
 @extend_schema_view(
     post=extend_schema(description="Takes a set of user credentials and returns "
@@ -51,16 +62,9 @@ class UserMeViewSet(viewsets.ModelViewSet):
         return self.queryset.filter(
             id=self.request.user.id
         ).select_related(
-            "application_set", "profile"
+            "profile"
         ).annotate(
-            vps_count=Count("vps"),
-            workload=Case(
-                When(vps_count__range=[1, 3], then=Value("EASY", output_field=CharField())),
-                When(vps_count__range=[3, 8], then=Value("MEDIUM", output_field=CharField())),
-                When(vps_count__gte=9, then=Value("HARD", output_field=CharField())),
-                default=Value("VERY_EASY", output_field=CharField())
-            ),
-            applications_deployed=Count("application", distinct=True)
+            **annotate_fields
         ).first()
 
 
@@ -79,16 +83,9 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return self.queryset.select_related(
-            "application_set", "profile"
+            "profile"
         ).annotate(
-            vps_count=Count("vps"),
-            workload=Case(
-                When(vps_count__range=[1, 3], then=Value("EASY", output_field=CharField())),
-                When(vps_count__range=[3, 8], then=Value("MEDIUM", output_field=CharField())),
-                When(vps_count__gte=9, then=Value("HARD", output_field=CharField())),
-                default=Value("VERY_EASY", output_field=CharField())
-            ),
-            applications_deployed=Count("application", distinct=True)
+            **annotate_fields
         )
 
 

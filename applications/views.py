@@ -28,3 +28,6 @@ class ApplicationViewSet(viewsets.ModelViewSet):
     serializer_class = ApplicationSerializer
     permission_classes = [IsAuthenticated]
     http_method_names = ['get', 'post', 'put', 'delete']
+
+    def get_queryset(self):
+        return self.queryset.prefetch_related('vps_set')
