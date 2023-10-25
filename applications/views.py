@@ -27,3 +27,4 @@ class ApplicationViewSet(viewsets.ModelViewSet):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
     permission_classes = [IsAuthenticated]
+    http_method_names = ['get', 'post', 'put', 'delete']

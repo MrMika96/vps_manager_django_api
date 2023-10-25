@@ -1,8 +1,12 @@
-from django.db.models import F, Sum, Case, When, Value, FloatField, ExpressionWrapper, Count, Q
+from django.db.models import (
+    F, Sum, Case, When, Value,
+    FloatField, ExpressionWrapper,
+    Count, Q
+)
 from django_filters import rest_framework as filters
 from drf_spectacular.utils import extend_schema_view, extend_schema
 from rest_framework import viewsets
-from rest_framework.generics import UpdateAPIView
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -34,6 +38,7 @@ class VpsViewSet(viewsets.ModelViewSet):
     pagination_class = VpsLimitOffsetPagination
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = VpsFilter
+    http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
         return self.queryset.prefetch_related(
@@ -74,13 +79,16 @@ class VpsViewSet(viewsets.ModelViewSet):
             status_count["results"] = serializer.data
             return Response(status_count)
 
-
-@extend_schema_view(
-    put=extend_schema(description="This route is used for vps status update only",
-                      summary="Vps status update")
-)
-class VpsStatusUpdateView(UpdateAPIView):
-    queryset = Vps.objects.all()
-    permission_classes = [IsAuthenticated]
-    serializer_class = VpsStatusSerializer
-    http_method_names = ["put"]
+    @extend_schema(
+        request=VpsStatusSerializer,
+        responses=VpsStatusSerializer,
+        summary="Vps status update",
+        description="This route is used for vps status update only"
+    )
+    @action(
+        url_path='status_update/<pk>',
+        url_name='status_update',
+        methods=['put'], detail=False
+    )
+    def vps_status_update(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)

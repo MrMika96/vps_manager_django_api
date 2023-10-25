@@ -1,16 +1,11 @@
-from django.urls import path
+from rest_framework.routers import DefaultRouter
 
 from vps import views
 
-urlpatterns = [
-    path("", views.VpsViewSet.as_view({
-        "get": "list",
-        "post": "create"
-    })),
-    path("<uuid:pk>", views.VpsViewSet.as_view({
-        "get": "retrieve",
-        "put": "update",
-        "delete": "destroy"
-    })),
-    path("status_update/<uuid:pk>", views.VpsStatusUpdateView.as_view())
-]
+
+router = DefaultRouter()
+router.register(prefix='',
+                viewset=views.VpsViewSet,
+                basename='vps')
+
+urlpatterns = router.urls

@@ -1,15 +1,10 @@
-from django.urls import path
+from rest_framework.routers import DefaultRouter
 
 from applications import views
 
-urlpatterns = [
-    path("", views.ApplicationViewSet.as_view({
-        "get": "list",
-        "post": "create"
-    })),
-    path("<int:pk>", views.ApplicationViewSet.as_view({
-        "get": "retrieve",
-        "put": "update",
-        "delete": "destroy"
-    }))
-]
+router = DefaultRouter()
+router.register(prefix='',
+                viewset=views.ApplicationViewSet,
+                basename='applications')
+
+urlpatterns = router.urls
