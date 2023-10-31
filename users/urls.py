@@ -16,8 +16,8 @@ urlpatterns = [
         "get": "retrieve",
         "put": "update",
         "delete": "destroy"
-    })),
-    path("auth", views.UserAuthView.as_view()),
-    path("register", views.UserRegisterView.as_view()),
+    }), name="personal_actions_of_the_client"),
+    path("auth", views.UserAuthView.as_view(), name="user_auth"),
+    path("register", views.UserRegisterView.as_view(), name="user_register"),
     path("change_credentials", views.UserCredentialsUpdateView.as_view())
 ]

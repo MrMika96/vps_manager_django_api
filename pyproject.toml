@@ -17,6 +17,7 @@ python-decouple = "^3.6"
 django-filter = "^22.1"
 Pygments = "^2.16.1"
 pygments-pprint-sql = "^0.1.0"
+pytest-django = "^4.6.0"
 
 [tool.poetry.dev-dependencies]
 
