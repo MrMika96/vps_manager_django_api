@@ -44,6 +44,16 @@ def api_client():
 
 
 @pytest.fixture
+def api_client_with_credentials(
+        db, create_user, api_client
+):
+    user = create_user()
+    api_client.force_authenticate(user=user)
+    yield api_client
+    api_client.force_authenticate(user=None)
+
+
+@pytest.fixture
 def get_or_create_token(db, create_user):
     user = create_user()
     refresh = RefreshToken.for_user(user)
@@ -57,8 +67,16 @@ def test_unauthorized_request(api_client):
     assert response.status_code == 401
 
 
+
 @pytest.mark.django_db
-def test_authorized_request(api_client, get_or_create_token):
+def test_authorized_request(api_client_with_credentials):
+    url = reverse('users:personal_actions_of_the_client')
+    response = api_client_with_credentials.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_authorized_with_token_request(api_client, get_or_create_token):
     url = reverse('users:personal_actions_of_the_client')
     token = get_or_create_token
     api_client.credentials(HTTP_AUTHORIZATION='Bearer ' + token)
