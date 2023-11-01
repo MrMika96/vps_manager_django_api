@@ -73,7 +73,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return User.objects.register(
             email=validated_data["email"],
             password=validated_data["password"],
-            profile=validated_data["profile"])
+            profile=validated_data["profile"]
+        )
 
 
 class UserSerializer(serializers.ModelSerializer):
