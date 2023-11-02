@@ -1,8 +1,8 @@
 from django.db.models import Count, Case, When, CharField, Value
 from drf_spectacular.utils import extend_schema_view, extend_schema
 from rest_framework import viewsets
-from rest_framework.generics import CreateAPIView, UpdateAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from users.models import User
@@ -32,17 +32,6 @@ annotate_fields = {
 )
 class UserAuthView(TokenObtainPairView):
     serializer_class = UserTokenObtainPairSerializer
-
-
-@extend_schema_view(
-    post=extend_schema(description="User system registration, takes users email, "
-                                   "password and profile data and saves it in our system",
-                       summary="User registration in the system"
-                       )
-)
-class UserRegisterView(CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserRegisterSerializer
 
 
 @extend_schema_view(
@@ -79,7 +68,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
-    http_method_names = ['get']
+    http_method_names = ['get', 'post', 'put']
 
     def get_queryset(self):
         return self.queryset.select_related(
@@ -88,16 +77,44 @@ class UserViewSet(viewsets.ModelViewSet):
             **annotate_fields
         )
 
-
-@extend_schema_view(
-    put=extend_schema(description="This route is only for changing authorized user email and password",
-                      summary="Authorized user credentials update")
-)
-class UserCredentialsUpdateView(UpdateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserCredentialsUpdateSerializer
-    permission_classes = [IsAuthenticated]
-    http_method_names = ["put"]
+    def get_serializer_class(self):
+        if self.action == "user_register":
+            return UserRegisterSerializer
+        if self.action == "user_change_credentials":
+            return UserCredentialsUpdateSerializer
+        return self.serializer_class
 
     def get_object(self):
-        return self.request.user
+        if self.action == "user_change_credentials":
+            return self.request.user
+        return super().get_object()
+
+    @extend_schema(
+        request=UserRegisterSerializer,
+        responses=UserRegisterSerializer,
+        summary="User registration in the system",
+        description="User system registration, takes users email, "
+                    "password and profile data and saves it in our system"
+    )
+    @action(
+        permission_classes=[AllowAny],
+        url_path='register',
+        url_name='register',
+        methods=['post'], detail=False
+    )
+    def user_register(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+    @extend_schema(
+        request=UserCredentialsUpdateSerializer,
+        responses=UserCredentialsUpdateSerializer,
+        summary="Authorized user credentials update",
+        description="This route is only for changing authorized user email and password"
+    )
+    @action(
+        url_path='change_credentials',
+        url_name='change_credentials',
+        methods=['put'], detail=False
+    )
+    def user_change_credentials(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)

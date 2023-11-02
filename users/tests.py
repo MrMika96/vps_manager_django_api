@@ -103,7 +103,7 @@ def test_delete_personal_data_request(api_client_with_credentials):
 
 @pytest.mark.django_db
 def test_change_credentials_request(api_client_with_credentials, test_password):
-    url = reverse('users:change_credentials')
+    url = reverse('users:user-change_credentials')
     response = api_client_with_credentials.put(
         url,
         data={
@@ -118,7 +118,7 @@ def test_change_credentials_request(api_client_with_credentials, test_password):
 
 @pytest.mark.django_db
 def test_user_registration_request(api_client, test_user_profile, test_password, test_email):
-    url = reverse("users:user_register")
+    url = reverse("users:user-register")
     response = api_client.post(
         url,
         data={
