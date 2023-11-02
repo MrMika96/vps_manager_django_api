@@ -57,7 +57,7 @@ def api_client_with_credentials(
 def get_or_create_token(db, create_user):
     user = create_user()
     refresh = RefreshToken.for_user(user)
-    return str(refresh.access_token)
+    return str(refresh), str(refresh.access_token)
 
 
 @pytest.mark.django_db
@@ -70,8 +70,8 @@ def test_unauthorized_request(api_client):
 @pytest.mark.django_db
 def test_authorized_with_token_request(api_client, get_or_create_token):
     url = reverse('users:user_personal_data')
-    token = get_or_create_token
-    api_client.credentials(HTTP_AUTHORIZATION='Bearer ' + token)
+    refresh_token, access_token = get_or_create_token
+    api_client.credentials(HTTP_AUTHORIZATION='Bearer ' + access_token)
     response = api_client.get(url)
     assert response.status_code == 200
 
@@ -168,4 +168,14 @@ def test_user_detail_request(api_client_with_credentials, create_user):
         )
     url = reverse('users:user-detail', args=[some_user.id])
     response = api_client_with_credentials.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_user_auth_refresh(client, get_or_create_token):
+    refresh_token, access_token = get_or_create_token
+    print(refresh_token),
+    print(access_token)
+    url = reverse('users:user_auth_refresh')
+    response = client.post(url, data={'refresh': refresh_token})
     assert response.status_code == 200
