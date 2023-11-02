@@ -1,4 +1,3 @@
-from django.db.models import Count, Case, When, CharField, Value
 from drf_spectacular.utils import extend_schema_view, extend_schema
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -10,17 +9,7 @@ from users.serializers import (
     UserTokenObtainPairSerializer, UserRegisterSerializer,
     UserSerializer, UserCredentialsUpdateSerializer
 )
-
-annotate_fields = {
-            'vps_count': Count("vps"),
-            'workload': Case(
-                When(vps_count__range=[1, 3], then=Value("EASY", output_field=CharField())),
-                When(vps_count__range=[3, 8], then=Value("MEDIUM", output_field=CharField())),
-                When(vps_count__gte=9, then=Value("HARD", output_field=CharField())),
-                default=Value("VERY_EASY", output_field=CharField())
-            ),
-            'applications_deployed': Count("application", distinct=True)
-        }  # вынес аннотейт в глобальную переменную, чтобы избежать дублирования кода в двух вьюхах
+from users.utils import return_users_annotated_fields
 
 
 @extend_schema_view(
@@ -53,7 +42,7 @@ class UserMeViewSet(viewsets.ModelViewSet):
         ).select_related(
             "profile"
         ).annotate(
-            **annotate_fields
+            **return_users_annotated_fields()
         ).first()
 
 
@@ -74,7 +63,7 @@ class UserViewSet(viewsets.ModelViewSet):
         return self.queryset.select_related(
             "profile"
         ).annotate(
-            **annotate_fields
+            **return_users_annotated_fields()
         )
 
     def get_serializer_class(self):
