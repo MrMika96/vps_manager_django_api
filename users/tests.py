@@ -174,8 +174,6 @@ def test_user_detail_request(api_client_with_credentials, create_user):
 @pytest.mark.django_db
 def test_user_auth_refresh(client, get_or_create_token):
     refresh_token, access_token = get_or_create_token
-    print(refresh_token),
-    print(access_token)
     url = reverse('users:user_auth_refresh')
     response = client.post(url, data={'refresh': refresh_token})
     assert response.status_code == 200
