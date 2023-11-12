@@ -10,7 +10,9 @@ class ApplicationSerializer(serializers.ModelSerializer):
         default=serializers.CurrentUserDefault(),
         help_text="Shows who deployed this application to server"
     )
-    size = serializers.FloatField(
+    size = serializers.DecimalField(
+        max_digits=5,
+        decimal_places=2,
         min_value=0.0024,
         max_value=70000.0,
         required=True,

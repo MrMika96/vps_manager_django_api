@@ -1,6 +1,6 @@
 from django.db.models import (
     F, Sum, Case, When, Value,
-    FloatField, ExpressionWrapper,
+    DecimalField, ExpressionWrapper,
     Count, Q
 )
 from django_filters import rest_framework as filters
@@ -48,13 +48,13 @@ class VpsViewSet(viewsets.ModelViewSet):
             free_space=Case(
                 When(applications_size__gt=0,
                      then=ExpressionWrapper(
-                         F("hdd")-F("applications_size")/Value(1000, output_field=FloatField()),
-                         output_field=FloatField())
+                         F("hdd")-F("applications_size")/Value(1000, output_field=DecimalField()),
+                         output_field=DecimalField())
                      ),
-                default=F("hdd"), output_field=FloatField()),
+                default=F("hdd"), output_field=DecimalField()),
             free_space_percentage=ExpressionWrapper(
-                F("free_space")/F("hdd")*Value(100, output_field=FloatField()),
-                output_field=FloatField())
+                F("free_space")/F("hdd")*Value(100, output_field=DecimalField()),
+                output_field=DecimalField())
         )
 
     def get_serializer_class(self):

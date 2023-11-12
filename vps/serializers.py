@@ -86,9 +86,9 @@ class VpsSingleSerializer(serializers.ModelSerializer):
         read_only=True,
         default=[]
     )
-    free_space = serializers.FloatField(read_only=True)
-    free_space_percentage = serializers.FloatField(read_only=True)
-    applications_size = serializers.FloatField(read_only=True)
+    free_space = serializers.DecimalField(max_digits=5, decimal_places=2, read_only=True)
+    free_space_percentage = serializers.DecimalField(max_digits=5, decimal_places=2, read_only=True)
+    applications_size = serializers.DecimalField(max_digits=5, decimal_places=2, read_only=True)
     deployed_applications = ApplicationShortSerializer(many=True, read_only=True, default=[])
 
     class Meta:
