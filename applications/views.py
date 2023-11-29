@@ -30,4 +30,6 @@ class ApplicationViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        return self.queryset.prefetch_related('vps_set')
+        qs = super().get_queryset()
+
+        return qs.prefetch_related('vps_set')

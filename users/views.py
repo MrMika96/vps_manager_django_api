@@ -60,7 +60,9 @@ class UserViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put']
 
     def get_queryset(self):
-        return self.queryset.select_related(
+        qs = super().get_queryset()
+
+        return qs.select_related(
             "profile"
         ).annotate(
             **return_users_annotated_fields()

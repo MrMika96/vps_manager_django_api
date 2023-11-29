@@ -41,7 +41,9 @@ class VpsViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        return self.queryset.prefetch_related(
+        qs = super().get_queryset()
+
+        return qs.prefetch_related(
             "maintained_by", "maintained_by__profile", "deployed_applications"
         ).annotate(
             applications_size=Sum("deployed_applications__size", default=0),
