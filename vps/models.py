@@ -10,9 +10,9 @@ class Vps(models.Model):
         ("stopped", "stopped"),
     ]
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    cpu = models.IntegerField()
-    ram = models.IntegerField()
-    hdd = models.IntegerField()
+    cpu = models.PositiveIntegerField()
+    ram = models.PositiveIntegerField()
+    hdd = models.PositiveIntegerField()
     status = models.CharField(choices=STATUSES, default="started", max_length=7)
     maintained_by = models.ManyToManyField('users.User')
     deployed_applications = models.ManyToManyField('applications.Application')
