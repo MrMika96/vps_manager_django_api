@@ -37,7 +37,9 @@ class UserMeViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
-        return self.queryset.filter(
+        qs = super().get_queryset()
+
+        return qs.filter(
             id=self.request.user.id
         ).select_related(
             "profile"
@@ -78,6 +80,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_object(self):
         if self.action == "user_change_credentials":
             return self.request.user
+
         return super().get_object()
 
     @extend_schema(
@@ -94,7 +97,7 @@ class UserViewSet(viewsets.ModelViewSet):
         methods=['post'], detail=False
     )
     def user_register(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+        return super().create(request, *args, **kwargs)
 
     @extend_schema(
         request=UserCredentialsUpdateSerializer,
@@ -108,4 +111,4 @@ class UserViewSet(viewsets.ModelViewSet):
         methods=['put'], detail=False
     )
     def user_change_credentials(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+        return super().update(request, *args, **kwargs)
