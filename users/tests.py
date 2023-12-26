@@ -34,12 +34,14 @@ def create_user(db, test_user_profile, test_password, test_email):
             password=test_password,
             profile=test_user_profile
         )
+
     return make_user
 
 
 @pytest.fixture
 def api_client():
     from rest_framework.test import APIClient
+
     return APIClient()
 
 
@@ -57,6 +59,7 @@ def api_client_with_credentials(
 def get_or_create_token(db, create_user):
     user = create_user()
     refresh = RefreshToken.for_user(user)
+
     return str(refresh), str(refresh.access_token)
 
 
@@ -64,6 +67,7 @@ def get_or_create_token(db, create_user):
 def test_unauthorized_request(api_client):
     url = reverse('users:user_personal_data')
     response = api_client.get(url)
+
     assert response.status_code == 401
 
 
@@ -73,6 +77,7 @@ def test_authorized_with_token_request(api_client, get_or_create_token):
     refresh_token, access_token = get_or_create_token
     api_client.credentials(HTTP_AUTHORIZATION='Bearer ' + access_token)
     response = api_client.get(url)
+
     assert response.status_code == 200
 
 
@@ -80,6 +85,7 @@ def test_authorized_with_token_request(api_client, get_or_create_token):
 def test_receive_personal_data_request(api_client_with_credentials):
     url = reverse('users:user_personal_data')
     response = api_client_with_credentials.get(url)
+
     assert response.status_code == 200
 
 
@@ -91,6 +97,7 @@ def test_update_personal_data_request(api_client_with_credentials, test_user_pro
         data={"profile": test_user_profile},
         format="json"
     )
+
     assert response.status_code == 200
 
 
@@ -98,6 +105,7 @@ def test_update_personal_data_request(api_client_with_credentials, test_user_pro
 def test_delete_personal_data_request(api_client_with_credentials):
     url = reverse('users:user_personal_data')
     response = api_client_with_credentials.delete(url)
+
     assert response.status_code == 204
 
 
@@ -113,6 +121,7 @@ def test_change_credentials_request(api_client_with_credentials, test_password):
         },
         format="json"
     )
+
     assert response.status_code == 200
 
 
@@ -128,6 +137,7 @@ def test_user_registration_request(api_client, test_user_profile, test_password,
         },
         format="json"
     )
+
     assert response.status_code == 201
 
 
@@ -143,6 +153,7 @@ def test_user_auth_request(api_client, create_user, test_password):
         },
         format="json"
     )
+
     assert response.status_code == 200
 
 
@@ -150,6 +161,7 @@ def test_user_auth_request(api_client, create_user, test_password):
 def test_users_list_request(api_client_with_credentials):
     url = reverse('users:user-list')
     response = api_client_with_credentials.get(url)
+
     assert response.status_code == 200
 
 
@@ -168,6 +180,7 @@ def test_user_detail_request(api_client_with_credentials, create_user):
         )
     url = reverse('users:user-detail', args=[some_user.id])
     response = api_client_with_credentials.get(url)
+
     assert response.status_code == 200
 
 
@@ -176,4 +189,5 @@ def test_user_auth_refresh(client, get_or_create_token):
     refresh_token, access_token = get_or_create_token
     url = reverse('users:user_auth_refresh')
     response = client.post(url, data={'refresh': refresh_token})
+
     assert response.status_code == 200
