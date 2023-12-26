@@ -2,6 +2,8 @@ import uuid
 
 from django.db import models
 
+from vps_manager_django_api.settings import AUTH_USER_MODEL
+
 
 class Vps(models.Model):
     STATUSES = [
@@ -14,5 +16,5 @@ class Vps(models.Model):
     ram = models.PositiveIntegerField()
     hdd = models.PositiveIntegerField()
     status = models.CharField(choices=STATUSES, default="started", max_length=7)
-    maintained_by = models.ManyToManyField('users.User')
+    maintained_by = models.ManyToManyField(AUTH_USER_MODEL)
     deployed_applications = models.ManyToManyField('applications.Application')

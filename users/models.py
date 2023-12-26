@@ -3,6 +3,8 @@ from django.db import models
 from django.db.transaction import atomic
 from rest_framework.exceptions import ValidationError
 
+from vps_manager_django_api.settings import AUTH_USER_MODEL
+
 
 class UserManager(models.Manager):
     def get_by_natural_key(self, username):
@@ -55,7 +57,7 @@ class Profile(models.Model):
     phone = models.CharField(max_length=64, blank=True)
     birth_date = models.DateField(null=True, blank=True)
 
-    user = models.OneToOneField('User', related_name="profile", on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(AUTH_USER_MODEL, related_name="profile", on_delete=models.CASCADE, primary_key=True)
 
     class Meta:
         db_table = "profile"
