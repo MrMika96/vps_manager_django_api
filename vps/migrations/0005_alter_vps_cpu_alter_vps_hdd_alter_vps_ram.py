@@ -4,25 +4,24 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('vps', '0004_vps_deployed_applications'),
+        ("vps", "0004_vps_deployed_applications"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='vps',
-            name='cpu',
+            model_name="vps",
+            name="cpu",
             field=models.PositiveIntegerField(),
         ),
         migrations.AlterField(
-            model_name='vps',
-            name='hdd',
+            model_name="vps",
+            name="hdd",
             field=models.PositiveIntegerField(),
         ),
         migrations.AlterField(
-            model_name='vps',
-            name='ram',
+            model_name="vps",
+            name="ram",
             field=models.PositiveIntegerField(),
         ),
     ]

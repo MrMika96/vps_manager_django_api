@@ -21,7 +21,7 @@ def test_user_profile():
         "middle_name": "middlename",
         "last_name": "doe",
         "phone": "+71231231234",
-        "birth_date": "2023-10-31"
+        "birth_date": "2023-10-31",
     }
 
 
@@ -29,9 +29,7 @@ def test_user_profile():
 def create_user(db, test_user_profile, test_password, test_email):
     def make_user(**kwargs):
         return User.objects.register(
-            email=test_email,
-            password=test_password,
-            profile=test_user_profile
+            email=test_email, password=test_password, profile=test_user_profile
         )
 
     return make_user
@@ -45,9 +43,7 @@ def api_client():
 
 
 @pytest.fixture
-def api_client_with_credentials(
-        db, create_user, api_client
-):
+def api_client_with_credentials(db, create_user, api_client):
     user = create_user()
     api_client.force_authenticate(user=user)
     yield api_client

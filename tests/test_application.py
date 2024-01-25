@@ -7,7 +7,7 @@ from users.models import User
 
 @pytest.mark.django_db
 def test_application_list_request(api_client_with_credentials):
-    url = reverse('applications:applications-list')
+    url = reverse("applications:applications-list")
     response = api_client_with_credentials.get(url)
 
     assert response.status_code == 200
@@ -23,15 +23,13 @@ def test_application_detail_request(api_client_with_credentials):
             "middle_name": "lame",
             "last_name": "dude",
             "phone": "+71231231123",
-            "birth_date": "2023-10-31"
-        }
+            "birth_date": "2023-10-31",
+        },
     )
     some_application = Application.objects.create(
-        title='test',
-        deployer=some_user,
-        size=100
+        title="test", deployer=some_user, size=100
     )
-    url = reverse('applications:applications-detail', args=[some_application.id])
+    url = reverse("applications:applications-detail", args=[some_application.id])
     response = api_client_with_credentials.get(url)
 
     assert response.status_code == 200
@@ -47,26 +45,18 @@ def test_application_update_request(api_client_with_credentials, test_password):
             "middle_name": "lame",
             "last_name": "dude",
             "phone": "+71231231123",
-            "birth_date": "2023-10-31"
-        }
+            "birth_date": "2023-10-31",
+        },
     )
 
     some_application = Application.objects.create(
-        title='test',
-        deployer=some_user,
-        size=100
+        title="test", deployer=some_user, size=100
     )
 
-    url = reverse('applications:applications-detail', args=[some_application.id])
+    url = reverse("applications:applications-detail", args=[some_application.id])
 
     response = api_client_with_credentials.put(
-        url,
-        data={
-            "title": "test",
-            "size": 100,
-            "deployed_to": []
-        },
-        format="json"
+        url, data={"title": "test", "size": 100, "deployed_to": []}, format="json"
     )
 
     assert response.status_code == 200
@@ -82,17 +72,15 @@ def test_application_delete_request(api_client_with_credentials, test_password):
             "middle_name": "lame",
             "last_name": "dude",
             "phone": "+71231231123",
-            "birth_date": "2023-10-31"
-        }
+            "birth_date": "2023-10-31",
+        },
     )
 
     some_application = Application.objects.create(
-        title='test',
-        deployer=some_user,
-        size=100
+        title="test", deployer=some_user, size=100
     )
 
-    url = reverse('applications:applications-detail', args=[some_application.id])
+    url = reverse("applications:applications-detail", args=[some_application.id])
 
     response = api_client_with_credentials.delete(url)
 
@@ -101,16 +89,10 @@ def test_application_delete_request(api_client_with_credentials, test_password):
 
 @pytest.mark.django_db
 def test_application_create_request(api_client_with_credentials):
-    url = reverse('applications:applications-list')
+    url = reverse("applications:applications-list")
 
     response = api_client_with_credentials.post(
-        url,
-        data={
-            "title": "test",
-            "size": 100,
-            "deployed_to": []
-        },
-        format="json"
+        url, data={"title": "test", "size": 100, "deployed_to": []}, format="json"
     )
 
     assert response.status_code == 201

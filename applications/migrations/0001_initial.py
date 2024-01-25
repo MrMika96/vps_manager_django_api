@@ -5,27 +5,41 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('users', '0004_remove_profile_position'),
+        ("users", "0004_remove_profile_position"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Application',
+            name="Application",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=64)),
-                ('size', models.FloatField()),
-                ('deployed_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('deployer', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='users.user')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=64)),
+                ("size", models.FloatField()),
+                ("deployed_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "deployer",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="users.user",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'applications',
-                'ordering': ['title'],
+                "db_table": "applications",
+                "ordering": ["title"],
             },
         ),
     ]

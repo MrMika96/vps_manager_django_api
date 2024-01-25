@@ -25,10 +25,7 @@ class UserManager(models.Manager):
         email = self.normalize_email(email)
         user = self.create(email=email)
 
-        Profile.objects.create(
-            user=user,
-            **profile
-        )
+        Profile.objects.create(user=user, **profile)
 
         user.set_password(password)
         user.save()
@@ -57,7 +54,12 @@ class Profile(models.Model):
     phone = models.CharField(max_length=64, blank=True)
     birth_date = models.DateField(null=True, blank=True)
 
-    user = models.OneToOneField(AUTH_USER_MODEL, related_name="profile", on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(
+        AUTH_USER_MODEL,
+        related_name="profile",
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
 
     class Meta:
         db_table = "profile"
@@ -71,7 +73,7 @@ class Profile(models.Model):
     @staticmethod
     def check_phone_len(phone):
         """Phone len must be greater or equal than 5 digits and less or equal than 19.
-         If it is not, returns False"""
+        If it is not, returns False"""
         if phone.isdigit():
             return 5 <= len(phone) <= 19
         return 5 <= len(phone[1:]) <= 19
@@ -94,5 +96,7 @@ class Profile(models.Model):
         elif phone.isdigit():
             return "+" + phone
         else:
-            msg = "The phone number must contain only numbers and start with a plus sign!"
+            msg = (
+                "The phone number must contain only numbers and start with a plus sign!"
+            )
             raise ValidationError(msg)

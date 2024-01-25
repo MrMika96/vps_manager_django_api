@@ -5,16 +5,15 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('vps', '0002_alter_vps_id'),
+        ("vps", "0002_alter_vps_id"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='vps',
-            name='maintained_by',
+            model_name="vps",
+            name="maintained_by",
             field=models.ManyToManyField(to=settings.AUTH_USER_MODEL),
         ),
     ]

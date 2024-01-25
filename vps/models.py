@@ -17,4 +17,4 @@ class Vps(models.Model):
     hdd = models.PositiveIntegerField()
     status = models.CharField(choices=STATUSES, default="started", max_length=7)
     maintained_by = models.ManyToManyField(AUTH_USER_MODEL)
-    deployed_applications = models.ManyToManyField('applications.Application')
+    deployed_applications = models.ManyToManyField("applications.Application")

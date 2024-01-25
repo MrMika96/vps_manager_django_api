@@ -42,8 +42,14 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ["first_name", "middle_name", "last_name",
-                  "phone", "birth_date", "age"]
+        fields = [
+            "first_name",
+            "middle_name",
+            "last_name",
+            "phone",
+            "birth_date",
+            "age",
+        ]
 
     def validate(self, attrs):
         if attrs.get("phone"):
@@ -52,7 +58,11 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     @extend_schema_field({"type": "string"})
     def get_age(self, obj):
-        return datetime.datetime.utcnow().year - obj.birth_date.year if obj.birth_date else ""
+        return (
+            datetime.datetime.utcnow().year - obj.birth_date.year
+            if obj.birth_date
+            else ""
+        )
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -73,7 +83,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return User.objects.register(
             email=validated_data["email"],
             password=validated_data["password"],
-            profile=validated_data["profile"]
+            profile=validated_data["profile"],
         )
 
 
@@ -82,12 +92,12 @@ class UserSerializer(serializers.ModelSerializer):
     workload = serializers.CharField(
         default=None,
         read_only=True,
-        help_text="Displays users workload (how many servers he/she maintaining)"
+        help_text="Displays users workload (how many servers he/she maintaining)",
     )
     applications_deployed = serializers.IntegerField(
         default=0,
         read_only=True,
-        help_text="Shows how many applications was deployed to the various servers by this user"
+        help_text="Shows how many applications was deployed to the various servers by this user",
     )
 
     class Meta:
@@ -106,14 +116,14 @@ class UserCredentialsUpdateSerializer(serializers.ModelSerializer):
         required=False,
         min_length=8,
         help_text="This field is required for password changing. "
-                  "Field should contain new password"
+        "Field should contain new password",
     )
     old_password = serializers.CharField(
         write_only=True,
         required=False,
         min_length=8,
         help_text="This field is required for password changing. "
-                  "Field should contain old password"
+        "Field should contain old password",
     )
 
     class Meta:
@@ -126,14 +136,16 @@ class UserCredentialsUpdateSerializer(serializers.ModelSerializer):
         return self.Meta.model.objects.normalize_email(email)
 
     def validate_password(self, password):
-        if self.initial_data.get("old_password") and self.context["request"].user.check_password(
-                self.initial_data["old_password"]):
+        if self.initial_data.get("old_password") and self.context[
+            "request"
+        ].user.check_password(self.initial_data["old_password"]):
             if password and self.initial_data["old_password"] == password:
                 raise ValidationError("New password is the same as an old one")
             elif not password and self.initial_data["old_password"] == password:
                 raise ValidationError("To change password you must enter new one")
-        elif self.initial_data.get("old_password") and not self.context["request"].user.check_password(
-                self.initial_data["old_password"]):
+        elif self.initial_data.get("old_password") and not self.context[
+            "request"
+        ].user.check_password(self.initial_data["old_password"]):
             raise ValidationError("Old password you entered was incorrect")
         return password
 
@@ -152,5 +164,4 @@ class MaintainerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["id", "email", "phone",
-                  "first_name", "last_name"]
+        fields = ["id", "email", "phone", "first_name", "last_name"]

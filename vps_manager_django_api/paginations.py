@@ -12,14 +12,18 @@ class VpsLimitOffsetPagination(LimitOffsetPagination):
         status_count = Vps.objects.all().aggregate(
             started=Count("status", filter=Q(status="started")),
             blocked=Count("status", filter=Q(status="blocked")),
-            stopped=Count("status", filter=Q(status="stopped"))
+            stopped=Count("status", filter=Q(status="stopped")),
         )
-        return Response(OrderedDict([
-            ('count', self.count),
-            ('started', status_count["started"]),
-            ('blocked', status_count["blocked"]),
-            ('stopped', status_count["stopped"]),
-            ('next', self.get_next_link()),
-            ('previous', self.get_previous_link()),
-            ('results', data)
-        ]))
+        return Response(
+            OrderedDict(
+                [
+                    ("count", self.count),
+                    ("started", status_count["started"]),
+                    ("blocked", status_count["blocked"]),
+                    ("stopped", status_count["stopped"]),
+                    ("next", self.get_next_link()),
+                    ("previous", self.get_previous_link()),
+                    ("results", data),
+                ]
+            )
+        )

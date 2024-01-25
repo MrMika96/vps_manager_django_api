@@ -7,11 +7,11 @@ from vps_manager_django_api import settings
 
 
 def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
     if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
+        ip = x_forwarded_for.split(",")[0]
     else:
-        ip = request.META.get('REMOTE_ADDR')
+        ip = request.META.get("REMOTE_ADDR")
     return ip
 
 
@@ -29,13 +29,17 @@ class PrintSqlQuery(MiddlewareMixin):
 
             totsecs = 0.0
             print(f"Client IP: {get_client_ip(request)}")
-            request_no_auth = {x: request.headers[x] for x in request.headers if x not in ['Authorization', 'Cookie']}
+            request_no_auth = {
+                x: request.headers[x]
+                for x in request.headers
+                if x not in ["Authorization", "Cookie"]
+            }
             pprint(f"Request headers: \n{request_no_auth}")
             for query in queries:
-                print(query['time'], 'used on:')
-                totsecs += float(query['time'])
-                print(highlight(query['sql'], lexer, TerminalFormatter()))
+                print(query["time"], "used on:")
+                totsecs += float(query["time"])
+                print(highlight(query["sql"], lexer, TerminalFormatter()))
 
-            print('Number of queries:', len(queries))
-            print('Total time:', totsecs)
+            print("Number of queries:", len(queries))
+            print("Total time:", totsecs)
         return response

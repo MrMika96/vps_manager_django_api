@@ -5,38 +5,50 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0002_alter_user_email'),
+        ("users", "0002_alter_user_email"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Profile',
+            name="Profile",
             fields=[
-                ('last_name', models.CharField(blank=True, max_length=64)),
-                ('first_name', models.CharField(blank=True, max_length=64)),
-                ('position', models.CharField(blank=True, max_length=256)),
-                ('middle_name', models.CharField(blank=True, max_length=64)),
-                ('phone', models.CharField(blank=True, max_length=64)),
-                ('birth_date', models.DateField(blank=True, null=True)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, related_name='profile', serialize=False, to='users.user')),
+                ("last_name", models.CharField(blank=True, max_length=64)),
+                ("first_name", models.CharField(blank=True, max_length=64)),
+                ("position", models.CharField(blank=True, max_length=256)),
+                ("middle_name", models.CharField(blank=True, max_length=64)),
+                ("phone", models.CharField(blank=True, max_length=64)),
+                ("birth_date", models.DateField(blank=True, null=True)),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        primary_key=True,
+                        related_name="profile",
+                        serialize=False,
+                        to="users.user",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'profile',
-                'ordering': ['last_name'],
+                "db_table": "profile",
+                "ordering": ["last_name"],
             },
         ),
         migrations.AddIndex(
-            model_name='profile',
-            index=models.Index(fields=['first_name'], name='profile_first_n_bcf119_idx'),
+            model_name="profile",
+            index=models.Index(
+                fields=["first_name"], name="profile_first_n_bcf119_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='profile',
-            index=models.Index(fields=['middle_name'], name='profile_middle__a01d9b_idx'),
+            model_name="profile",
+            index=models.Index(
+                fields=["middle_name"], name="profile_middle__a01d9b_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='profile',
-            index=models.Index(fields=['last_name'], name='profile_last_na_0a3721_idx'),
+            model_name="profile",
+            index=models.Index(fields=["last_name"], name="profile_last_na_0a3721_idx"),
         ),
     ]

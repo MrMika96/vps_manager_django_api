@@ -23,7 +23,6 @@ urlpatterns = [
     path("applications/", include("applications.urls")),
     path("admin/", admin.site.urls),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
-
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
         "docs/",
