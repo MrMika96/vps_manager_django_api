@@ -19,11 +19,11 @@ class Vps(models.Model):
     ]
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     cpu = models.IntegerField() # Кол-во ядер сервера
-    ram = models.IntegerField() # Кол-во оперативноя памяти сервера (в гигабайтах)
+    ram = models.IntegerField() # Кол-во оперативной памяти сервера (в гигабайтах)
     hdd = models.IntegerField() # Объем жесткого диска сервера (в гигабайтах)
     status = models.CharField(choices=STATUSES, default="started", max_length=7) # Статус сервера (Возможные статусы указаны в STATUSES)
-    maintained_by = models.ManyToManyField(User) # Список юзеров, которые занимаются администрированием сервера
-    deployed_applications = models.ManyToManyField(Application) # Список приложений (программ), развернутых на сервере
+    maintained_by = models.ManyToManyField(AUTH_USER_MODEL) # Список юзеров, которые занимаются администрированием сервера
+    deployed_applications = models.ManyToManyField("applications.Application") # Список приложений (программ), развернутых на сервере
 ```
         
 <br />***USERS***<br />
@@ -51,7 +51,12 @@ class Profile(models.Model):
     phone = models.CharField(max_length=64, blank=True) # Телефонный номер пользователя
     birth_date = models.DateField(null=True, blank=True) # Дата рождения пользователя
 
-    user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE, primary_key=True) # Юзер, которому принадлежит данный профиль
+    user = models.OneToOneField(
+        AUTH_USER_MODEL,
+        related_name="profile",
+        on_delete=models.CASCADE,
+        primary_key=True,
+    ) # Юзер, которому принадлежит данный профиль
 
     class Meta:
         db_table = 'profile'
@@ -96,8 +101,8 @@ class Profile(models.Model):
         
 ```python
 class Application(models.Model):
-    title = models.CharField(max_length=64) # Название прилодения
-    deployer = models.ForeignKey(User, null=True, on_delete=models.SET_NULL) # Пользователь, который развернул приложение на сервере
+    title = models.CharField(max_length=64) # Название приложения
+    deployer = models.ForeignKey(AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL) # Пользователь, который развернул приложение на сервере
     size = models.FloatField() # Сколько место занимает приложение на жестком диске сервера (в мегабайтах)
     deployed_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
